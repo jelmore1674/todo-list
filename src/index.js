@@ -1,39 +1,51 @@
 import _ from 'lodash';
+import { todoItemForm, addTodoItem } from './todoItemForm';
 
-class Todo {
-    constructor(title, description, dueDate, priority) {
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priority = priority;
-    }
+// Factory for ToDo Items
+const todoItem = (title, description, dueDate, priority) => {
+    return {
+        title,
+        description,
+        dueDate,
+        priority,
+    };
+};
 
-    success() {
-        alert('Successfully added');
+// Factory for ToDo Projects
+const todoProject = (title) => {
+    let list = [];
+    return {
+        title,
+        list,
+    };
+};
+
+// dummy data
+let home = { title: 'home', list: [] };
+let todoLists = [
+    { title: 'home', list: [] },
+    { title: 'work', list: [] },
+];
+console.log(todoLists);
+
+const clean = todoItem('Wash Dishes', '', '3/5/21', 'low');
+todoLists[1].list.push(clean);
+console.log(todoLists);
+todoItemForm();
+
+document.getElementById('submitBtn').addEventListener('click', addItem);
+
+function addItem() {
+    let title = document.querySelector('#title').value;
+    let description = document.querySelector('#description').value;
+    let dueDate = document.querySelector('#dueDate').value;
+    let priority = document.querySelector('#priority').value;
+    const todo = todoItem(title, description, dueDate, priority);
+    let todoList = 'home';
+    for (var i = 0; i < todoLists.length; i++) {
+        if (todoLists[i].title == todoList) {
+            todoLists[i].list.push(todo);
+            console.log(todoLists);
+        }
     }
 }
-
-let list = { default: {} };
-
-let item = new Todo('Work', 'LALALA', '3/21', 'High');
-list[0] = item;
-item.success();
-
-console.log(list);
-console.log(list[0].dueDate);
-
-list.push('work');
-let item2 = new Todo('Clean', 'Clean bathroom very well', '4/21/21', 'Low');
-list[1] = item2;
-console.log(list);
-
-function component() {
-    const element = document.createElement('div');
-
-    // Lodash, is imported by this script
-    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
-    return element;
-}
-
-document.body.appendChild(component());
